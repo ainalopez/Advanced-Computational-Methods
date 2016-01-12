@@ -22,6 +22,11 @@ genData(noclass = 4, noelements = c(90,80,70,60), sd = c(0.2,0.10,0.05,0.01))
 
 genData()
 
+###### Note
+1. In order to plot the pdf, the user must download the fonts previously using: *font_import()* and make sure, using the command *fonts()*, that Tahoma is available. Otherwise, it is necessary to change it (lines 41 and 48) with another available font. 
+2. Before runing the function, set the working directory into the place where you want to get the pdf and csv file. 
+
+
 ###### References
 http://www.mathworks.com/matlabcentral/fileexchange/41459-6-functions-for-generating-artificial-datasets
 http://cs231n.github.io/neural-networks-case-study/
