@@ -3,7 +3,7 @@
 
 #### EXERCISE 1
 genData() returns a spiral dataset for benchmarking purposes. The output is a dataframe. If csv and plot arguments are specified, 
-then a csv file and a pdf plot are also returned.
+then a csv file and a pdf plot are also returned. 
 
 ###### Parameters
 
@@ -18,6 +18,10 @@ The parameters of the function are:
 * plotpdf: if TRUE (by default), plots the dataset into a pdf called *SpiralData.pdf*.
 
 ###### Examples
-* genData(noclass = 4, noelements = c(90,80,70,60), sd = c(0.2,0.10,0.05,0.01))
-* genData()
+genData(noclass = 4, noelements = c(90,80,70,60), sd = c(0.2,0.10,0.05,0.01))
 
+genData()
+
+###### References
+http://www.mathworks.com/matlabcentral/fileexchange/41459-6-functions-for-generating-artificial-datasets
+http://cs231n.github.io/neural-networks-case-study/
