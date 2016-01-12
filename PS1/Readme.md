@@ -24,7 +24,7 @@ genData()
 
 ###### Note
 1. In order to plot the pdf, the user must download the fonts previously using: *font_import()* and make sure, using the command *fonts()*, that Tahoma is available. Otherwise, it is necessary to change it (lines 41 and 48) with another available font. 
-2. Before runing the function, set the working directory into the place where you want to get the pdf and csv file. 
+2. Before running the function, set the working directory into the place where you want to get the pdf and csv file. 
 
 
 ###### References
