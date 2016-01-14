@@ -86,27 +86,38 @@ write.csv(LoanD3, file = "predictions.csv", row.names=FALSE)
 # Plot of the data and decision boundaries in pdf: discFunction3C.PDF
 
 # decision boundary 1: class 1 vs class 2
-intercept1 <- (weightsOptim[1,1] - weightsOptim[1,2])/(weightsOptim[2,2] - weightsOptim[2,1])
-slope1     <- (weightsOptim[3,1] - weightsOptim[3,2])/(weightsOptim[2,2] - weightsOptim[2,1])
+intercept1 <- (weightsOptim[1,1] - weightsOptim[1,2])/(weightsOptim[3,2] - weightsOptim[3,1])
+slope1     <- (weightsOptim[2,1] - weightsOptim[2,2])/(weightsOptim[3,2] - weightsOptim[3,1])
+x1         <- seq(min(LoanD3["PIratio"]), max(LoanD3["PIratio"]), length.out = nrow(LoanD3))
+y1         <- slope1*x1 + intercept1
+boundary1 <- data.frame(PIratio = x1, solvency = y1, deny = rep("Denied vs Approved"))
+
 # decision boundary 2: class 1 vs class 3
-intercept2 <- (weightsOptim[1,1] - weightsOptim[1,3])/(weightsOptim[2,3] - weightsOptim[2,1])
-slope2     <- (weightsOptim[3,1] - weightsOptim[3,3])/(weightsOptim[2,3] - weightsOptim[2,1])
+intercept2 <- (weightsOptim[1,1] - weightsOptim[1,3])/(weightsOptim[3,3] - weightsOptim[3,1])
+slope2     <- (weightsOptim[2,1] - weightsOptim[2,3])/(weightsOptim[3,3] - weightsOptim[3,1])
+y2         <- slope2*x1 + intercept2
+boundary2  <- data.frame(PIratio = x1, solvency = y2, deny = rep("Denied vs Undecided"))
+
 # decision boundary 3: class 2 vs class 3
-intercept3 <- (weightsOptim[1,3] - weightsOptim[1,2])/(weightsOptim[2,2] - weightsOptim[2,3])
-slope3     <- (weightsOptim[3,3] - weightsOptim[3,2])/(weightsOptim[2,2] - weightsOptim[2,3])
+intercept3 <- (weightsOptim[1,3] - weightsOptim[1,2])/(weightsOptim[3,2] - weightsOptim[3,3])
+slope3     <- (weightsOptim[2,3] - weightsOptim[2,2])/(weightsOptim[3,2] - weightsOptim[3,3])
+y3         <- slope3*x1 + intercept3
+boundary3  <- data.frame(PIratio = x1, solvency = y3, deny = rep("Undecided vs Approved"))
 
 # plot
-pdf("discFunction3C.pdf", family = "Tahoma", width=5, height=5)
+pdf("discFunction3C.pdf", family = "Tahoma", width=6, height=5)
 ggplot(data = LoanD3,
-       aes(x = solvency, y = PIratio, colour = deny, fill = deny)) + 
+       aes(x = solvency, y = PIratio, colour = deny)) + 
   geom_point() + 
+  guides(shape=FALSE) +
   xlab("solvency") + 
   ylab("PIratio") + 
   ggtitle("Loan data and decision boundaries") + 
-  theme_bw() + 
-  theme(text = element_text(family = "Tahoma")) +
-  geom_abline(intercept = intercept1, slope = slope1, colour = "yellow") + 
-  geom_abline(intercept = intercept2, slope = slope2, colour = "cyan") + 
-  geom_abline(intercept = intercept3, slope = slope3, colour = "magenta") 
+  geom_line(data = boundary1) + 
+  geom_line(data = boundary2) + 
+  geom_line(data = boundary3) + 
+  scale_color_manual("", 
+                     values = c("Approved" = "red", "Denied" = "green", "Undecided" = "blue", "Denied vs Approved"= "yellow",
+                              "Denied vs Undecided"  = "cyan", "Undecided vs Approved" = "magenta"))
 dev.off()
 embed_fonts("discFunction3C.pdf")
