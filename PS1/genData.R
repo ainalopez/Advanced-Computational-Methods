@@ -60,4 +60,3 @@ return(dataspiral)
 # REFERENCES: 
 # http://www.mathworks.com/matlabcentral/fileexchange/41459-6-functions-for-generating-artificial-datasets
 # http://cs231n.github.io/neural-networks-case-study/
-
