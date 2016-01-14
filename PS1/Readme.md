@@ -5,6 +5,7 @@
 genData() returns a spiral dataset for benchmarking purposes. The output is a dataframe. If csv and plot arguments are specified, 
 then a csv file and a pdf plot are also returned. 
 
+
 ###### Parameters
 
 The parameters of the function are:
@@ -27,6 +28,12 @@ genData()
 2. Before running the function, set the working directory into the place where you want to get the pdf and csv file. 
 
 
-###### References
-http://www.mathworks.com/matlabcentral/fileexchange/41459-6-functions-for-generating-artificial-datasets
-http://cs231n.github.io/neural-networks-case-study/
+#### EXERCISE 2
+Modification of the function loanData() in order to allow a third category labeled as "undecided". It also trains a discriminant function and plots its decision boundaries. 
+
+###### Note
+1. In order to plot the pdf, the user must download the fonts previously using: *font_import()* and make sure, using the command *fonts()*, that Tahoma is available. Otherwise, it is necessary to change it (lines 41 and 48) with another available font. 
+2. Before running the function, set the working directory into the place where you want to get the pdf and csv file. 
+
+
+
