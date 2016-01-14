@@ -80,7 +80,7 @@ predictedLabels[undecided == TRUE] <- "Undecided"
 LoanD3 <- cbind(LoanD3, predictions, predictedLabels)
 
 # Save the dataset in a csv file called predictions.csv
-write.csv(LoanD3, file = "predictions.csv")
+write.csv(LoanD3, file = "predictions.csv", row.names=FALSE)
 
 
 # Plot of the data and decision boundaries in pdf: discFunction3C.PDF
