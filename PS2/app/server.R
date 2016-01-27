@@ -1,18 +1,13 @@
+# loading libraries
 library(ggplot2)
 library(mvtnorm)
 
-palette(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3",
-          "#FF7F00", "#FFFF33", "#A65628", "#F781BF", "#999999"))
-
-
-
-
 shinyServer(function(input, output, session) {
   
+  # Define functions
   sigmaXY <- function(rho, sdX, sdY) {
     covTerm <- rho * sdX * sdY
-    VCmatrix <- matrix(c(sdX^2, covTerm, covTerm, sdY^2), 
-                       2, 2, byrow = TRUE)
+    VCmatrix <- matrix(c(sdX^2, covTerm, covTerm, sdY^2),2, 2, byrow = TRUE)
     return(VCmatrix)
   }
   
@@ -42,10 +37,12 @@ shinyServer(function(input, output, session) {
              sdApproved = c(input$sdAX, input$sdAY), sdDenied = c(input$sdDX, input$sdDY))
   })
   
+  # compute the fitting
   Datafit <- reactive({
     datafit <- lm(target ~ solvency + PIratio + 1, data=selectedData())
   })
   
+  # Compute boundaries
   Boundaries <- reactive({
     weights <- coef(Datafit())[c("solvency", "PIratio")]
     intercept <- (-coef(Datafit())[1] + 0.5)/weights["PIratio"]
@@ -54,6 +51,7 @@ shinyServer(function(input, output, session) {
   })
 
 
+  # Compute the confusion matrix
   ConfMatrix <- reactive({
     predictedLabels <- ifelse(predict(Datafit()) < 0.5, "Approved", "Denied")
     confMatrixFreq <- table(selectedData()$deny, predictedLabels)
@@ -61,8 +59,7 @@ shinyServer(function(input, output, session) {
     return(confMatrixFreq)
   })
  
-  
-  
+  # serving the plot of the data
   output$plot1 <- renderPlot({
     ggplot(data = selectedData(), 
            aes(x = solvency, y = PIratio, colour=deny, fill=deny)) + 
@@ -73,6 +70,7 @@ shinyServer(function(input, output, session) {
       geom_abline(intercept = Boundaries()$intercept, slope = Boundaries()$slope)
   })
   
+  # serving the table of the data
   output$table1 <- renderTable({
     ConfMatrix()
   })
