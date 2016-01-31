@@ -1,4 +1,4 @@
-
+library("class")
 #setwd("Desktop/Advanced Computational methods/Advanced-Computational-Methods/")
 training <- read.csv("PS4/MNIST/MNIST_training.csv", header = FALSE)
 test     <- read.csv("PS4/MNIST/MNIST_test.csv", header = FALSE)
@@ -7,31 +7,28 @@ label <- training[,1]
 feat  <- training[,2:257]
 
 # Choose k and p using 4-Fold Cross Validation
-k <- rep(seq(1,30),3)
-p1 <- rep(1, 30)
-p2 <- rep(2, 30)
-p3 <- rep(Inf, 30)
-p  <- c(p1,p2,p3)
+k <- rep(seq(1,31,2))
+lk <- length(k)
 
 # 4 fold Cross-Validation
 n <- nrow(training)
 fold <- sample(1:4, n, replace=TRUE)
 
-
+acc <- rep (NA, lk)
 cvpred <- matrix(NA,nrow=n ,ncol=ncol(training))
 
-for (h in 1:90){
+for (h in 1:lk){
+  ac <- rep(NA,4)
   for (i in 1:4){
-    l <- kNN(feat[fold==i, ], label[fold!=i], k[h], p[h], memory = feat[fold!=i, ], type="predict")
-    
+    l <- knn(train = feat[fold!=i, ], test = feat[fold==i, ], cl = label[fold!=i], k = k[h])
+    l <- as.numeric
+    ac[i] <- (1/length(l)) * sum(label[fold==i] == l)*100
   }
+  acc[h] <- mean(ac)
 }
-  for (i in 1:4)
-    cvpred[which(fold==i),k] <- knn.predict(train=which(fold!=i),test=which(fold==i),cl,kdist,k=k)
-# display misclassification rates for k=1:10
-apply(cvpred,2,function(x) sum(cl!=x))
 
+# The best accuracy achieved has been with: k = 1.
 
+predlabel <- knn(train = feat, test = test, cl = label, k = 1)
+#displayDigit(as.numeric(test[3,]), as.numeric(predlabel[3]))
 
-
-knn(train, test, cl, k = 1, l = 0, prob = FALSE, use.all = TRUE)
