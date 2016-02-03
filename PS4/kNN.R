@@ -2,7 +2,7 @@ kNN <- function(features, labels, k, p, memory = NULL, type="train"){
  
   # Needed packages
   if (!require("assertthat")) install.packages("assertthat"); library(assertthat)
-  if (!require("dplyr")) install.packages("dplyr")
+  if (!require("dplyr")) install.packages("dplyr"); library(dplyr)
   
   # Verify inputs: assertthat
   not_empty(features)
@@ -41,23 +41,23 @@ kNN <- function(features, labels, k, p, memory = NULL, type="train"){
         }
   } else if (type == "predict") {
     noMemory <- nrow(memory)
-    distMatrix <- matrix(NA, noMemory, noObs)
+    distMatrix <- matrix(NA, noObs, noMemory)
     for (obs in 1:noObs) {
       # getting the probe for the current observation
-      probe <- as.numeric(memory[obs,])
+      probe <- as.numeric(features[obs,])
       probeExpanded <- matrix(probe, nrow = noMemory, ncol = 2, byrow = TRUE)
     
       # computing distances between the probe and exemplars in the memory
       if (p %in% c(1,2)) {
-        distMatrix[obs, ] <- (rowSums((abs(features - probeExpanded))^p) )^(1/p)
+        distMatrix[obs, ] <- (rowSums((abs(memory - probeExpanded))^p) )^(1/p)
         } else if (p==Inf) {
-          distMatrix[obs, ] <- apply(abs(features - probeExpanded), 1, max)
+          distMatrix[obs, ] <- apply(abs(memory - probeExpanded), 1, max)
         }  
     }
     }
   
   # Finding the neighbors: Sort the distances for each point in increasing numerical order 
-  neighbors <- apply(distMatrix, 2, order) %>% t()
+  neighbors <- apply(distMatrix, 1, order) %>% t()
   
   # the most frequent class in the k nearest neighbors
   prob       <- apply(as.matrix(neighbors[,1:k]), MARGIN = 1, function(x) max(table(labels[x])/k) ) 

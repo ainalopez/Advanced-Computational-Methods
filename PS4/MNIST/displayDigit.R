@@ -62,3 +62,7 @@ displayDigitSeq <- function(features, labels, predictedLabels = NULL) {
 
 }
 
+
+prediction     0     1
+           0 11058  3146
+           1   140   156
