@@ -1,5 +1,5 @@
 library("class")
-setwd("Desktop/Advanced Computational methods/Advanced-Computational-Methods/")
+# setwd("Desktop/Advanced Computational methods/Advanced-Computational-Methods/")
 training <- read.csv("PS4/MNIST/MNIST_training.csv", header = FALSE)
 test     <- read.csv("PS4/MNIST/MNIST_test.csv", header = FALSE)
 
