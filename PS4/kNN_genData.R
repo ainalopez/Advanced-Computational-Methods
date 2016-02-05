@@ -7,7 +7,7 @@ features <- as.matrix(cbind(dataset$x1,dataset$x2))
 labels   <- as.numeric(as.vector(dataset$y))
 
 # compute KNN
-knn.res <- kNN(features, labels, k = 1, p = 1, type = "train")
+knn.res <- kNN(features, labels, k = 3, p = 1, type = "train")
 df <- data.frame(dataset, knn.res)
 
 # Write a csv file called: predictions.csv
